@@ -17,7 +17,7 @@ public class ItemRecommender {
 
 	public static void main(String[] args) {
 		try {
-			DataModel dm = new FileDataModel(new File("data/movies.csv"));
+			DataModel dm = new FileDataModel(new File("data/experimento_2016_1.csv"));
 			ItemSimilarity sim = new LogLikelihoodSimilarity(dm);
 			
 			GenericItemBasedRecommender recommender = new GenericItemBasedRecommender(dm, sim);
