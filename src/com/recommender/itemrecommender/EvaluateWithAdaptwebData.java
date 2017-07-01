@@ -2,6 +2,7 @@ package com.recommender.itemrecommender;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import org.apache.mahout.cf.taste.common.TasteException;
 import org.apache.mahout.cf.taste.eval.IRStatistics;
@@ -21,10 +22,12 @@ import org.apache.mahout.cf.taste.similarity.UserSimilarity;
 
 public class EvaluateWithAdaptwebData {
 	public static int kNeighbors;
-	public static String fileName = "data/exp1.csv";
+	public static String expFile = "data/exp4.csv";
+	public static String resultsFile = "data/results_exp4.dat";
 	
 	public static void main(String[] args) throws IOException, TasteException {
-		DataModel model = new FileDataModel(new File(fileName));
+		PrintWriter writer = new PrintWriter(resultsFile, "UTF-8");
+		DataModel model = new FileDataModel(new File(expFile));
 		RecommenderIRStatsEvaluator evaluator = new GenericRecommenderIRStatsEvaluator();
 		RecommenderBuilder recommenderBuilder = new RecommenderBuilder() {
 			@Override
@@ -49,7 +52,7 @@ public class EvaluateWithAdaptwebData {
 						 recommenderBuilder, null, model, null, 5,
 						 0.0,
 						 0.9);
-				System.out.println("k="+kNeighbors + "\t" + stats.getPrecision() + "\t" + stats.getRecall() + "\t" + stats.getF1Measure());
+				writer.println("k="+kNeighbors + "\t" + stats.getPrecision() + "\t" + stats.getRecall() + "\t" + stats.getF1Measure());
 			}
 		}
 		
@@ -59,9 +62,9 @@ public class EvaluateWithAdaptwebData {
 					 itemRecommenderBuilder, null, model, null, 5,
 					 0.0,
 					 0.9);
-			System.out.println("itemBased" + "\t" + stats.getPrecision() + "\t" + stats.getRecall() + "\t" + stats.getF1Measure());
+			writer.println("itemBased" + "\t" + stats.getPrecision() + "\t" + stats.getRecall() + "\t" + stats.getF1Measure());
 		}
-
+		writer.close();
 	}
 
 }
